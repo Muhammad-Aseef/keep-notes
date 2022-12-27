@@ -22,7 +22,7 @@ export default {
         {
           id: 1,
           title: "2nd year",
-          note: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Nihil earum perferendis eos facere, nam vel sequi assumenda fugit unde dolores sed dignissimos veniam veritatis ipsa, aperiam, mollitia pariatur minima. Necessitatibus?",
+          note: "Lorem ipsum dolor, sit am Necessitatibus?",
           color: "#BCECE0",
           label: "university",
         },

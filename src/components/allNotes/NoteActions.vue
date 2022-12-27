@@ -1,7 +1,7 @@
 <template>
   <div class="cardActions">
     <ul class="actionButtons">
-      <li class="actionItem" @click="openPalette()">
+      <li class="actionItem hoverItem" @click="openPalette($event)">
         <font-awesome-icon icon="fa-solid fa-palette" size="lg" />
         <p>Change color</p>
         <div
@@ -9,7 +9,6 @@
           v-if="paletteOpen"
           @click="paletteClick($event)"
         >
-          <!-- :style="'background-color:' + color" -->
           <div
             class="colorOption"
             v-for="color in colorOptions"
@@ -20,12 +19,48 @@
               border: note.color === color && '1px solid black',
             }"
           >
-            <!-- :style="
-              'background-color:' +
-              color +
-              ';' +
-              [note.color === color ? 'border: 1px solid black' : 'none']
-            " -->
+            <font-awesome-icon
+              icon="fa-solid fa-check"
+              style="float: right"
+              v-if="note.color === color"
+            />
+          </div>
+        </div>
+      </li>
+      <li class="actionItem hoverItem">
+        <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
+        <p>Delete</p>
+      </li>
+      <li class="actionItem hoverItem">
+        <font-awesome-icon icon="fa-solid fa-folder-minus" size="lg" />
+        <p>Archive</p>
+      </li>
+      <li class="actionItem hoverItem">
+        <font-awesome-icon icon="fa-solid fa-circle-plus" size="lg" />
+        <p>Add Label</p>
+      </li>
+    </ul>
+  </div>
+  <!-- <div class="cardActions">
+    <ul class="actionButtons">
+      <li class="actionItem" @click="openPalette()">
+        <font-awesome-icon icon="fa-solid fa-palette" size="lg" />
+        <p>Change color</p>
+        <div
+          class="colorPalette"
+          v-if="paletteOpen"
+          @click="paletteClick($event)"
+        >
+          <div
+            class="colorOption"
+            v-for="color in colorOptions"
+            :key="color"
+            @click="changeColor(color)"
+            :style="{
+              backgroundColor: color,
+              border: note.color === color && '1px solid black',
+            }"
+          >
             <font-awesome-icon
               icon="fa-solid fa-check"
               style="float: right"
@@ -47,7 +82,7 @@
         <p>Add Label</p>
       </li>
     </ul>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -69,17 +104,23 @@ export default {
     };
   },
   methods: {
-    openPalette() {
+    openPalette(e) {
       //   console.log(this.note);
       this.paletteOpen = !this.paletteOpen;
+      e.stopPropagation();
     },
     paletteClick(e) {
       e.stopPropagation();
     },
     changeColor(c) {
-      this.note.color = c;
-      console.log(this.note);
-      this.paletteOpen = false;
+      if (this.note.color === c) {
+        return;
+      } else {
+        this.note.color = c;
+        console.log(this.note);
+        this.paletteOpen = false;
+        this.$emit("colorUpdated");
+      }
     },
   },
 };
@@ -87,35 +128,50 @@ export default {
 
 <style>
 .cardActions {
-  padding: 10px 15px;
+  /* padding: 10px 15px; */
+  background-color: whitesmoke;
+  position: absolute;
+  top: 100%;
+  right: -40%;
+  border-radius: 10px;
+  z-index: 99;
 }
 .actionButtons {
   padding: 0px;
   list-style: none;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
 }
 .actionItem {
   cursor: pointer;
   position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 10px;
+}
+.hoverItem:hover {
+  background-color: lightgray;
 }
 .actionItem > p {
-  display: none;
+  /* display: none; */
   width: max-content;
   border-radius: 5px;
   font-size: 14px;
   padding: 5px 3px;
-  background-color: #444;
+  /* background-color: #444; 
   color: white;
   position: absolute;
   top: -5px;
-  right: 18px;
-  margin-top: 5px;
+  right: 18px; 
+  margin-top: 5px; */
+  color: #333;
+  margin-left: 5px;
 }
-.actionItem:hover p {
+/* .actionItem:hover p {
   display: flex;
-}
+} */
 .colorPalette {
   background-color: white;
   /* width: 300px; */

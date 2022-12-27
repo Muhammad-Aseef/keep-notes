@@ -2,12 +2,25 @@
   <div class="note">
     <div
       class="noteCard"
-      v-for="note in this.noteObj"
+      v-for="note in noteObj"
       :key="note.id"
-      :style="cardColor(note)"
+      :style="{ backgroundColor: note.color }"
     >
       <div class="cardWrapper" style="height: 100%" @click="openCard(note)">
-        <p class="cardTitle">{{ note.title }}</p>
+        <div style="display: flex; align-items: center; position: relative">
+          <p class="cardTitle">{{ note.title }}</p>
+          <font-awesome-icon
+            icon="fa-solid fa-ellipsis-vertical"
+            style="cursor: pointer"
+            @click="openAction($event, note.id)"
+          />
+          <NoteActions
+            :id="'action' + note.id"
+            class="hideAction"
+            :note="note"
+            @colorUpdated="closeAction(note.id)"
+          />
+        </div>
         <hr style="background-color: #555; border: none; height: 1px" />
         <div class="cardContentDiv">
           <p>{{ note.note }}</p>
@@ -25,7 +38,11 @@
     </div>
 
     <div v-if="isOpen" class="openOverlayDiv" @click="isOpen = false">
-      <div class="openCard" @click="cardClick($event)" :style="cardColor(note)">
+      <div
+        class="openCard"
+        @click="cardClick($event)"
+        :style="{ backgroundColor: note.color }"
+      >
         <div class="openWrapper">
           <p class="openCardTitle">{{ note.title }}</p>
           <hr style="background-color: #555; border: none; height: 1px" />
@@ -34,7 +51,7 @@
           </div>
         </div>
         <div class="openCardBottom">
-          <NoteActions :class="{ openActions: true }" :note="note" />
+          <!-- <NoteActions :class="{ openActions: true }" :note="note" /> -->
           <div class="label openLabel" v-if="note.label !== ''">
             <span>{{ note.label }}</span>
           </div>
@@ -56,6 +73,7 @@ export default {
     return {
       isOpen: false,
       note: {},
+      showActions: false,
     };
   },
   methods: {
@@ -64,12 +82,24 @@ export default {
       // console.log(this.note);
       this.isOpen = true;
     },
+    openAction(e, id) {
+      e.stopPropagation();
+      let card = document.getElementById("action" + id);
+      // console.log(card);
+      if (this.showActions) {
+        card.style.display = "none";
+      } else {
+        card.style.display = "block";
+      }
+      this.showActions = !this.showActions;
+    },
+    closeAction(id) {
+      let card = document.getElementById("action" + id);
+      card.style.display = "none";
+    },
     cardClick(e) {
       // console.log("card");
       e.stopPropagation();
-    },
-    cardColor(n) {
-      return "background-color: " + n.color;
     },
   },
 };
@@ -92,9 +122,11 @@ export default {
   color: #333;
   line-height: 1.2;
   margin: 15px;
+  position: relative;
 }
 
 .cardTitle {
+  width: 90%;
   text-align: center;
   padding: 7px 0px;
   font-weight: 500;
@@ -111,7 +143,8 @@ export default {
   text-overflow: ellipsis;
 }
 .label {
-  margin-top: 20px;
+  margin-top: 10px;
+  cursor: pointer;
 }
 .label > span {
   font-size: 13px;
@@ -129,7 +162,7 @@ export default {
 }
 
 .noteCard:hover {
-  transform: scale(1.02);
+  /* transform: scale(1.02); */
   box-shadow: 1px 2px 9px 0px gray;
 }
 /* .noteCard:hover .cardBottomWrapper {
@@ -192,5 +225,8 @@ export default {
 }
 .openActions {
   width: 50%;
+}
+.hideAction {
+  display: none;
 }
 </style>
