@@ -1,5 +1,5 @@
 <template>
-  <div class="note">
+  <div class="note" v-if="noteObj.length !== 0">
     <div
       class="noteCard"
       v-for="note in noteObj"
@@ -8,7 +8,12 @@
     >
       <div class="cardWrapper" style="height: 100%" @click="openCard(note)">
         <div style="display: flex; align-items: center; position: relative">
-          <p class="cardTitle">{{ note.title }}</p>
+          <p
+            class="cardTitle"
+            :style="{ height: note.title.length > 0 ? 'fit-content' : '20px' }"
+          >
+            {{ note.title }}
+          </p>
           <font-awesome-icon
             icon="fa-solid fa-ellipsis-vertical"
             style="cursor: pointer"
@@ -44,7 +49,13 @@
         :style="{ backgroundColor: note.color }"
       >
         <div class="openWrapper">
-          <p class="openCardTitle">{{ note.title }}</p>
+          <!-- <p class="openCardTitle">{{ note.title }}</p> -->
+          <input
+            type="text"
+            maxlength="45"
+            v-model="note.title"
+            class="openCardTitle"
+          />
           <hr style="background-color: #555; border: none; height: 1px" />
           <div class="openCardContent">
             <p>{{ note.note }}</p>
@@ -58,6 +69,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="note" v-else>
+    <div class="noNotes"><h2>No Notes Added</h2></div>
   </div>
 </template>
 
@@ -126,13 +140,28 @@ export default {
   line-height: 1.2;
   margin: 15px;
   position: relative;
+  animation: 1.2s ease-in-out 0s 1 slideInTop;
 }
-
+@keyframes slideInTop {
+  from {
+    transform: translateY(-20%);
+    opacity: 0.4;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 .cardTitle {
-  width: 90%;
+  width: 85%;
+  height: 20px;
   text-align: center;
-  padding: 7px 0px;
   font-weight: 500;
+  padding: 7px;
+  background-color: inherit;
+  border: none;
+  outline: none;
+  word-break: break-all;
 }
 .cardContentDiv {
   padding: 10px 15px;
@@ -192,9 +221,14 @@ export default {
 }
 
 .openCardTitle {
+  width: 100%;
+  height: fit-content;
   text-align: center;
-  padding: 7px;
+  padding: 7px 0px;
   font-weight: 500;
+  background-color: inherit;
+  color: inherit;
+  font-size: 18px;
 }
 .openCardContent {
   padding: 20px 10px;
@@ -229,5 +263,19 @@ export default {
 
 .hideAction {
   display: none;
+}
+.noNotes {
+  width: 100%;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.noNotes > h2 {
+  font-family: "Caveat", cursive;
+  font-size: 40px;
+  font-weight: 100;
+  text-align: center;
+  color: #333;
 }
 </style>

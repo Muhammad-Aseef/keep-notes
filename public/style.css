@@ -59,3 +59,8 @@
     margin-right: 35px;
     margin-left: 20px;
 }
+
+input[type=text]{
+    border: none;
+    outline: none;
+}
