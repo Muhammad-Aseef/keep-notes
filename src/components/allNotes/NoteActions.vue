@@ -152,7 +152,7 @@ export default {
   border-radius: 10px;
 }
 .hoverItem:hover {
-  background-color: lightgray;
+  background-color: #e8eef2;
 }
 .actionItem > p {
   /* display: none; */
@@ -183,7 +183,7 @@ export default {
   position: absolute;
   top: 100%;
   left: -50%;
-  z-index: 3;
+  z-index: 99;
 }
 .colorOption {
   width: 30px;

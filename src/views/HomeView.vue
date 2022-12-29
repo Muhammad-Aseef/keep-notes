@@ -23,7 +23,7 @@ export default {
           id: 1,
           title: "2nd year",
           note: "Lorem ipsum dolor, sit am Necessitatibus?",
-          color: "#BCECE0",
+          color: "#FBE7C6",
           label: "university",
         },
         {

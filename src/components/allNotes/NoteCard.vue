@@ -51,7 +51,7 @@
           </div>
         </div>
         <div class="openCardBottom">
-          <!-- <NoteActions :class="{ openActions: true }" :note="note" /> -->
+          <OpenNoteActions :note="note" />
           <div class="label openLabel" v-if="note.label !== ''">
             <span>{{ note.label }}</span>
           </div>
@@ -63,11 +63,13 @@
 
 <script>
 import NoteActions from "./NoteActions.vue";
+import OpenNoteActions from "./OpenNoteActions.vue";
 
 export default {
   props: ["noteObj"],
   components: {
     NoteActions,
+    OpenNoteActions,
   },
   data() {
     return {
@@ -113,6 +115,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  /* align-items: flex-start; */
 }
 .noteCard {
   width: 250px;
@@ -223,9 +226,7 @@ export default {
   align-items: center;
   justify-content: space-between;
 }
-.openActions {
-  width: 50%;
-}
+
 .hideAction {
   display: none;
 }
