@@ -1,7 +1,10 @@
 <template>
   <div class="openActions">
-    <ul class="actionButtons openButtons">
-      <li class="actionItem OpenhoverItem" @click="openPalette($event)">
+    <ul :class="['actionButtons', 'openButtons', note.trash && 'disableClass']">
+      <li
+        class="actionItem OpenhoverItem"
+        @click="note.trash ? showMessage() : openPalette($event)"
+      >
         <font-awesome-icon icon="fa-solid fa-palette" size="lg" />
         <span>Change Color</span>
         <div
@@ -27,15 +30,15 @@
           </div>
         </div>
       </li>
-      <li class="actionItem OpenhoverItem">
+      <li class="actionItem OpenhoverItem" @click="note.trash && showMessage()">
         <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
         <span>Delete</span>
       </li>
-      <li class="actionItem OpenhoverItem">
+      <li class="actionItem OpenhoverItem" @click="note.trash && showMessage()">
         <font-awesome-icon icon="fa-solid fa-folder-minus" size="lg" />
         <span>Archive</span>
       </li>
-      <li class="actionItem OpenhoverItem">
+      <li class="actionItem OpenhoverItem" @click="note.trash && showMessage()">
         <font-awesome-icon icon="fa-solid fa-circle-plus" size="lg" />
         <span>Add Label</span>
       </li>
@@ -80,6 +83,9 @@ export default {
         this.$emit("colorUpdated");
       }
     },
+    showMessage() {
+      console.log("this will be done by toast");
+    },
   },
 };
 </script>
@@ -116,5 +122,8 @@ export default {
   position: absolute;
   top: 68%;
   left: 52%;
+}
+.disableClass {
+  opacity: 0.7;
 }
 </style>

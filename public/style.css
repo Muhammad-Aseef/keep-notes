@@ -1,66 +1,75 @@
 /* font-family: 'Caveat', cursive; */
-.content{
-    display: flex;
-    height: 90vh;
-  }
-.contentCard{
-    flex: 7;
-    width: 100%;
-    height: 100%;
-    padding: 0px 15px;
-    border-radius: 10px;
-    /* background-color: lightgreen; */
+.content {
+  display: flex;
+  height: 90vh;
 }
-.headerWrapper{
-    display: flex;
-    align-items: center;
-    padding: 10px 0px;
-    background-color: #D6C9C9;
-    color: #555 ;
-    width: 100%;
-    /* position: fixed;
+.contentCard {
+  flex: 7;
+  width: 100%;
+  height: 100%;
+  padding: 0px 15px;
+  border-radius: 10px;
+  /* background-color: lightgreen; */
+}
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  padding: 10px 0px;
+  background-color: #d6c9c9;
+  color: #555;
+  width: 100%;
+  /* position: fixed;
     top: 0px;
     left: 0px; */
 }
-.headerTitle{
-    font-family: 'Caveat', cursive;
-    font-size: 40px;
+.headerTitle {
+  font-family: "Caveat", cursive;
+  font-size: 40px;
 }
-.sidebarIcon{
-    margin: 0px 20px;
-    cursor: pointer;
+.sidebarIcon {
+  margin: 0px 20px;
+  cursor: pointer;
 }
 
-.sidebar{
-    /* position: absolute;
+.sidebar {
+  /* position: absolute;
     top: 70px; */
-    flex: 1;
-    height:fit-content;
-    padding: 10px 0px;
-    box-shadow: 1px 2px 9px 0px gray;
+  flex: 1;
+  height: fit-content;
+  padding: 10px 0px;
+  box-shadow: 1px 2px 9px 0px gray;
 }
-.sidebarAllItems{
-    list-style: none;
-    padding: 0px;
+.sidebarAllItems {
+  list-style: none;
+  padding: 0px;
 }
-.sidebarItem{
-    padding: 15px 0px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 0px 15px 15px 0px;
+.sidebarItem {
+  padding: 15px 0px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 0px 15px 15px 0px;
 }
-.sidebarItem:hover{
-    background-color: #E8EEF2;
-}  
-.sidebarItem > span{
-    margin-right: 15px;
+.sidebarItem:hover {
+  background-color: #e8eef2;
 }
-.sidebarItemIcon{
-    margin-right: 35px;
-    margin-left: 20px;
+.sidebarItem > span {
+  margin-right: 15px;
+}
+.sidebarItemIcon {
+  margin-right: 35px;
+  margin-left: 20px;
+}
+a {
+  text-decoration: none;
+  color: inherit;
+}
+input[type="text"] {
+  border: none;
+  outline: none;
 }
 
-input[type=text]{
-    border: none;
-    outline: none;
+textarea {
+  border: none;
+  outline: none;
+  resize: none;
 }

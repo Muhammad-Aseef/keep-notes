@@ -16,14 +16,17 @@
       />
       <span>Labels</span>
     </li>
-    <li class="sidebarItem">
-      <font-awesome-icon
-        icon="fa-regular fa-trash-can"
-        size="lg"
-        class="sidebarItemIcon"
-      />
-      <span>Trash</span>
-    </li>
+    <router-link to="/trash">
+      <li class="sidebarItem">
+        <font-awesome-icon
+          icon="fa-regular fa-trash-can"
+          size="lg"
+          class="sidebarItemIcon"
+        />
+        <span>Trash</span>
+      </li>
+    </router-link>
+
     <li class="sidebarItem" @click="openArchive">
       <font-awesome-icon
         icon="fa-solid fa-folder-minus"

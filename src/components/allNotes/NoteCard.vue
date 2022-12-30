@@ -51,15 +51,23 @@
         <div class="openWrapper">
           <!-- <p class="openCardTitle">{{ note.title }}</p> -->
           <input
+            :disabled="note.trash"
             type="text"
             maxlength="45"
             v-model="note.title"
             class="openCardTitle"
           />
           <hr style="background-color: #555; border: none; height: 1px" />
-          <div class="openCardContent">
+          <textarea
+            :disabled="note.trash"
+            rows="16"
+            v-model="note.note"
+            class="openCardContent"
+          ></textarea>
+
+          <!-- <div class="openCardContent">
             <p>{{ note.note }}</p>
-          </div>
+          </div> -->
         </div>
         <div class="openCardBottom">
           <OpenNoteActions :note="note" />
@@ -140,7 +148,7 @@ export default {
   line-height: 1.2;
   margin: 15px;
   position: relative;
-  animation: 1.2s ease-in-out 0s 1 slideInTop;
+  animation: 1s ease-in-out 0s 1 slideInTop;
 }
 @keyframes slideInTop {
   from {
@@ -231,14 +239,20 @@ export default {
   font-size: 18px;
 }
 .openCardContent {
-  padding: 20px 10px;
-  display: -webkit-box;
+  width: -webkit-fill-available;
+  padding: 10px 20px;
+  font-size: 16px;
+  /* line-height: 1.3; */
+  background-color: inherit;
+  color: #333;
+
+  /* display: -webkit-box;
   -webkit-line-clamp: 18;
   -webkit-box-orient: vertical;
-  overflow-y: scroll;
+  overflow-y: scroll; */
 }
 .openCardContent::-webkit-scrollbar {
-  width: 12px;
+  width: 10px;
 }
 .openCardContent::-webkit-scrollbar-track {
   border: none;
@@ -251,8 +265,8 @@ export default {
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
 .openCardBottom {
-  margin-top: 10px;
-  padding: 15px 15px;
+  /* margin-top: 10px; */
+  padding: 12px 15px;
   border-radius: 0px 0px 10px 10px;
   background-color: inherit;
   box-shadow: 0px -1px 7px 0px rgba(0, 0, 0, 0.411);

@@ -1,6 +1,6 @@
 <template>
-  <div class="cardActions">
-    <ul class="actionButtons">
+  <div class="cardActions" @click="actionClick($event)">
+    <ul class="actionButtons" v-if="!note.trash">
       <li class="actionItem hoverItem" @click="openPalette($event)">
         <font-awesome-icon icon="fa-solid fa-palette" size="lg" />
         <p>Change color</p>
@@ -40,49 +40,17 @@
         <p>Add Label</p>
       </li>
     </ul>
-  </div>
-  <!-- <div class="cardActions">
-    <ul class="actionButtons">
-      <li class="actionItem" @click="openPalette()">
-        <font-awesome-icon icon="fa-solid fa-palette" size="lg" />
-        <p>Change color</p>
-        <div
-          class="colorPalette"
-          v-if="paletteOpen"
-          @click="paletteClick($event)"
-        >
-          <div
-            class="colorOption"
-            v-for="color in colorOptions"
-            :key="color"
-            @click="changeColor(color)"
-            :style="{
-              backgroundColor: color,
-              border: note.color === color && '1px solid black',
-            }"
-          >
-            <font-awesome-icon
-              icon="fa-solid fa-check"
-              style="float: right"
-              v-if="note.color === color"
-            />
-          </div>
-        </div>
-      </li>
-      <li class="actionItem">
+    <ul class="actionButtons" v-else>
+      <li class="actionItem hoverItem">
         <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
         <p>Delete</p>
       </li>
-      <li class="actionItem">
-        <font-awesome-icon icon="fa-solid fa-folder-minus" size="lg" />
-        <p>Archive</p>
-      </li>
-      <li class="actionItem">
-        <font-awesome-icon icon="fa-solid fa-circle-plus" size="lg" />
-        <p>Add Label</p>
+      <li class="actionItem hoverItem">
+        <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
+        <p>Restore</p>
       </li>
     </ul>
-  </div> -->
+  </div>
 </template>
 
 <script>
@@ -107,7 +75,7 @@ export default {
     openPalette(e) {
       //   console.log(this.note);
       this.paletteOpen = !this.paletteOpen;
-      e.stopPropagation();
+      // e.stopPropagation();
     },
     paletteClick(e) {
       e.stopPropagation();
@@ -122,6 +90,10 @@ export default {
         this.$emit("colorUpdated");
       }
     },
+    actionClick(e) {
+      // console.log("card");
+      e.stopPropagation();
+    },
   },
 };
 </script>
@@ -132,7 +104,7 @@ export default {
   background-color: whitesmoke;
   position: absolute;
   top: 100%;
-  right: -40%;
+  right: -30%;
   border-radius: 10px;
   z-index: 99;
 }
@@ -160,6 +132,7 @@ export default {
   border-radius: 5px;
   font-size: 14px;
   padding: 5px 3px;
+  letter-spacing: 1px;
   /* background-color: #444; 
   color: white;
   position: absolute;
