@@ -14,11 +14,13 @@
           >
             {{ note.title }}
           </p>
-          <font-awesome-icon
-            icon="fa-solid fa-ellipsis-vertical"
+          <vue-feather
+            type="more-vertical"
             style="cursor: pointer"
+            size="18"
             @click="openAction($event, note.id)"
-          />
+          ></vue-feather>
+
           <NoteActions
             :id="'action' + note.id"
             class="hideAction"
@@ -218,6 +220,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 .openCard {
   width: 600px;

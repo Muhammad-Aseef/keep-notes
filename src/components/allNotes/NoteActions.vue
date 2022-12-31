@@ -2,7 +2,7 @@
   <div class="cardActions" @click="actionClick($event)">
     <ul class="actionButtons" v-if="!note.trash">
       <li class="actionItem hoverItem" @click="openPalette($event)">
-        <font-awesome-icon icon="fa-solid fa-palette" size="lg" />
+        <vue-feather type="codesandbox" size="20"></vue-feather>
         <p>Change color</p>
         <div
           class="colorPalette"
@@ -19,34 +19,35 @@
               border: note.color === color && '1px solid black',
             }"
           >
-            <font-awesome-icon
-              icon="fa-solid fa-check"
+            <vue-feather
+              type="check"
+              size="20"
               style="float: right"
               v-if="note.color === color"
-            />
+            ></vue-feather>
           </div>
         </div>
       </li>
       <li class="actionItem hoverItem">
-        <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
+        <vue-feather type="trash-2" size="20"></vue-feather>
         <p>Delete</p>
       </li>
       <li class="actionItem hoverItem">
-        <font-awesome-icon icon="fa-solid fa-folder-minus" size="lg" />
+        <vue-feather type="archive" size="20"></vue-feather>
         <p>Archive</p>
       </li>
       <li class="actionItem hoverItem">
-        <font-awesome-icon icon="fa-solid fa-circle-plus" size="lg" />
+        <vue-feather type="plus-circle" size="20"></vue-feather>
         <p>Add Label</p>
       </li>
     </ul>
     <ul class="actionButtons" v-else>
       <li class="actionItem hoverItem">
-        <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
+        <vue-feather type="trash-2"></vue-feather>
         <p>Delete</p>
       </li>
       <li class="actionItem hoverItem">
-        <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
+        <vue-feather type="refresh-ccw"></vue-feather>
         <p>Restore</p>
       </li>
     </ul>
@@ -104,7 +105,7 @@ export default {
   background-color: whitesmoke;
   position: absolute;
   top: 100%;
-  right: -30%;
+  right: -40%;
   border-radius: 10px;
   z-index: 99;
 }
@@ -140,7 +141,7 @@ export default {
   right: 18px; 
   margin-top: 5px; */
   color: #333;
-  margin-left: 5px;
+  margin-left: 7px;
 }
 /* .actionItem:hover p {
   display: flex;
@@ -154,7 +155,7 @@ export default {
   border-radius: 10px;
   box-shadow: 1px 2px 9px 0px lightgray;
   position: absolute;
-  top: 100%;
+  top: 80%;
   left: -50%;
   z-index: 99;
 }

@@ -1,17 +1,13 @@
 <template>
-  <div class="openActions">
+  <div class="openActions" @click="note.trash && showMessage()">
     <ul :class="['actionButtons', 'openButtons', note.trash && 'disableClass']">
       <li
         class="actionItem OpenhoverItem"
-        @click="note.trash ? showMessage() : openPalette($event)"
+        @click="!note.trash && openPalette($event)"
       >
-        <font-awesome-icon icon="fa-solid fa-palette" size="lg" />
+        <vue-feather type="codesandbox"></vue-feather>
         <span>Change Color</span>
-        <div
-          class="colorPalette"
-          v-if="paletteOpen"
-          @click="paletteClick($event)"
-        >
+        <div class="colorPalette" v-if="paletteOpen" @click="stop($event)">
           <div
             class="colorOption"
             v-for="color in colorOptions"
@@ -22,24 +18,25 @@
               border: note.color === color && '1px solid black',
             }"
           >
-            <font-awesome-icon
-              icon="fa-solid fa-check"
+            <vue-feather
+              type="check"
+              size="20"
               style="float: right"
               v-if="note.color === color"
-            />
+            ></vue-feather>
           </div>
         </div>
       </li>
-      <li class="actionItem OpenhoverItem" @click="note.trash && showMessage()">
-        <font-awesome-icon icon="fa-solid fa-trash-can" size="lg" />
+      <li class="actionItem OpenhoverItem">
+        <vue-feather type="trash-2"></vue-feather>
         <span>Delete</span>
       </li>
-      <li class="actionItem OpenhoverItem" @click="note.trash && showMessage()">
-        <font-awesome-icon icon="fa-solid fa-folder-minus" size="lg" />
+      <li class="actionItem OpenhoverItem">
+        <vue-feather type="archive"></vue-feather>
         <span>Archive</span>
       </li>
-      <li class="actionItem OpenhoverItem" @click="note.trash && showMessage()">
-        <font-awesome-icon icon="fa-solid fa-circle-plus" size="lg" />
+      <li class="actionItem OpenhoverItem">
+        <vue-feather type="plus-circle"></vue-feather>
         <span>Add Label</span>
       </li>
     </ul>
@@ -47,7 +44,14 @@
 </template>
 
 <script>
+import { useToast } from "vue-toastification";
+
 export default {
+  setup() {
+    // Get toast interface
+    const toast = useToast();
+    return { toast };
+  },
   props: ["note"],
   data() {
     return {
@@ -65,13 +69,12 @@ export default {
     };
   },
   methods: {
+    stop(e) {
+      e.stopPropagation();
+    },
     openPalette(e) {
       //   console.log(this.note);
       this.paletteOpen = !this.paletteOpen;
-      e.stopPropagation();
-    },
-    paletteClick(e) {
-      e.stopPropagation();
     },
     changeColor(c) {
       if (this.note.color === c) {
@@ -84,7 +87,7 @@ export default {
       }
     },
     showMessage() {
-      console.log("this will be done by toast");
+      this.toast.error("You cannot edit trashed note!");
     },
   },
 };
