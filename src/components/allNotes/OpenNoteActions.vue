@@ -1,6 +1,13 @@
 <template>
-  <div class="openActions" @click="note.trash && showMessage()">
-    <ul :class="['actionButtons', 'openButtons', note.trash && 'disableClass']">
+  <div
+    class="openActions"
+    @click="note.trash && showMessage()"
+    :style="{ padding: isAdding && '0px' }"
+  >
+    <ul
+      v-if="!isAdding"
+      :class="['actionButtons', 'openButtons', note.trash && 'disableClass']"
+    >
       <li
         class="actionItem OpenhoverItem"
         @click="!note.trash && openPalette($event)"
@@ -31,9 +38,45 @@
         <vue-feather type="trash-2"></vue-feather>
         <span>Delete</span>
       </li>
-      <li class="actionItem OpenhoverItem">
-        <vue-feather type="archive"></vue-feather>
+      <li class="actionItem OpenhoverItem" v-if="!note.archive">
+        <vue-feather type="folder-minus"></vue-feather>
         <span>Archive</span>
+      </li>
+      <li class="actionItem OpenhoverItem" v-else>
+        <vue-feather type="folder-plus"></vue-feather>
+        <span>Unarchive</span>
+      </li>
+      <li class="actionItem OpenhoverItem">
+        <vue-feather type="plus-circle"></vue-feather>
+        <span>Add Label</span>
+      </li>
+    </ul>
+    <ul v-else :class="['actionButtons', 'addButtons']">
+      <li
+        class="actionItem OpenhoverItem"
+        @click="!note.trash && openPalette($event)"
+      >
+        <vue-feather type="codesandbox"></vue-feather>
+        <span>Change Color</span>
+        <div class="colorPalette" v-if="paletteOpen" @click="stop($event)">
+          <div
+            class="colorOption"
+            v-for="color in colorOptions"
+            :key="color"
+            @click="changeColor(color)"
+            :style="{
+              backgroundColor: color,
+              border: note.color === color && '1px solid black',
+            }"
+          >
+            <vue-feather
+              type="check"
+              size="20"
+              style="float: right"
+              v-if="note.color === color"
+            ></vue-feather>
+          </div>
+        </div>
       </li>
       <li class="actionItem OpenhoverItem">
         <vue-feather type="plus-circle"></vue-feather>
@@ -52,7 +95,7 @@ export default {
     const toast = useToast();
     return { toast };
   },
-  props: ["note"],
+  props: ["note", "isAdding"],
   data() {
     return {
       paletteOpen: false,
@@ -83,7 +126,7 @@ export default {
         this.note.color = c;
         console.log(this.note);
         this.paletteOpen = false;
-        this.$emit("colorUpdated");
+        // this.$emit("colorUpdated");
       }
     },
     showMessage() {
@@ -99,6 +142,11 @@ export default {
   padding: 0px 10px;
 }
 .openButtons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.addButtons {
   display: flex;
   align-items: center;
   justify-content: space-between;

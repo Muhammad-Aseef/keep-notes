@@ -1,4 +1,7 @@
 /* font-family: 'Caveat', cursive; */
+:root{
+  --theme-main: #d6c9c9;
+}
 .content {
   display: flex;
   height: 90vh;
@@ -7,15 +10,18 @@
   flex: 7;
   /* width: 100%;
   height: 100%; */
-  padding: 0px 15px;
+  padding: 15px;
   border-radius: 10px;
   /* background-color: lightgreen; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .headerWrapper {
   display: flex;
   align-items: center;
   padding: 10px 0px;
-  background-color: #d6c9c9;
+  background-color: var(--theme-main);
   color: #555;
   width: 100%;
   /* position: fixed;

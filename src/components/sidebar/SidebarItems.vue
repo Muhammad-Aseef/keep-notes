@@ -8,7 +8,7 @@
     </router-link>
     <router-link to="archive">
       <li class="sidebarItem">
-        <vue-feather type="archive" class="sidebarItemIcon"></vue-feather>
+        <vue-feather type="folder-minus" class="sidebarItemIcon"></vue-feather>
         <p>Archive</p>
       </li>
     </router-link>
@@ -18,7 +18,7 @@
         <p>Trash</p>
       </li>
     </router-link>
-    <router-link to="#">
+    <router-link to="labels">
       <li class="sidebarItem">
         <vue-feather type="tag" class="sidebarItemIcon"></vue-feather>
         <p>Label</p>

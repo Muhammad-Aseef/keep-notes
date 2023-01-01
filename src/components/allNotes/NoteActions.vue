@@ -1,5 +1,8 @@
 <template>
-  <div class="cardActions" @click="actionClick($event)">
+  <div
+    :class="['cardActions', note.trash && 'adjust']"
+    @click="actionClick($event)"
+  >
     <ul class="actionButtons" v-if="!note.trash">
       <li class="actionItem hoverItem" @click="openPalette($event)">
         <vue-feather type="codesandbox" size="20"></vue-feather>
@@ -32,9 +35,13 @@
         <vue-feather type="trash-2" size="20"></vue-feather>
         <p>Delete</p>
       </li>
-      <li class="actionItem hoverItem">
-        <vue-feather type="archive" size="20"></vue-feather>
+      <li class="actionItem hoverItem" v-if="!note.archive">
+        <vue-feather type="folder-minus" size="20"></vue-feather>
         <p>Archive</p>
+      </li>
+      <li class="actionItem hoverItem" v-else>
+        <vue-feather type="folder-plus" size="20"></vue-feather>
+        <p>Unarchive</p>
       </li>
       <li class="actionItem hoverItem">
         <vue-feather type="plus-circle" size="20"></vue-feather>
@@ -43,11 +50,11 @@
     </ul>
     <ul class="actionButtons" v-else>
       <li class="actionItem hoverItem">
-        <vue-feather type="trash-2"></vue-feather>
+        <vue-feather type="trash-2" size="20"></vue-feather>
         <p>Delete</p>
       </li>
       <li class="actionItem hoverItem">
-        <vue-feather type="refresh-ccw"></vue-feather>
+        <vue-feather type="refresh-ccw" size="20"></vue-feather>
         <p>Restore</p>
       </li>
     </ul>
@@ -108,6 +115,9 @@ export default {
   right: -40%;
   border-radius: 10px;
   z-index: 99;
+}
+.adjust {
+  right: -30%;
 }
 .actionButtons {
   padding: 0px;

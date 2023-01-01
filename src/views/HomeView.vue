@@ -1,20 +1,20 @@
 <template>
   <div class="contentCard">
-    <!-- <Header/> -->
+    <TopButtons page="home" :noteObj="noteObj" />
     <NoteCard :noteObj="noteObj" />
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-// import Header from "@/components/Header.vue";
 import NoteCard from "@/components/allNotes/NoteCard.vue";
+import TopButtons from "@/components/buttons/TopButtons.vue";
 
 export default {
   name: "HomeView",
   components: {
-    // Header,
     NoteCard,
+    TopButtons,
   },
   data() {
     return {

@@ -1,10 +1,13 @@
 <template>
   <div class="note" v-if="noteObj.length !== 0">
     <div
-      class="noteCard"
+      class="noteCard slideInTop"
       v-for="note in noteObj"
       :key="note.id"
-      :style="{ backgroundColor: note.color }"
+      :style="{
+        backgroundColor: note.color,
+        border: note.color === 'white' ? '2px solid lightgray' : 'none',
+      }"
     >
       <div class="cardWrapper" style="height: 100%" @click="openCard(note)">
         <div style="display: flex; align-items: center; position: relative">
@@ -72,7 +75,7 @@
           </div> -->
         </div>
         <div class="openCardBottom">
-          <OpenNoteActions :note="note" />
+          <OpenNoteActions :note="note" :isAdding="false" />
           <div class="label openLabel" v-if="note.label !== ''">
             <span>{{ note.label }}</span>
           </div>
@@ -122,6 +125,7 @@ export default {
     closeAction(id) {
       let card = document.getElementById("action" + id);
       card.style.display = "none";
+      console.log(id);
     },
     cardClick(e) {
       // console.log("card");
@@ -134,7 +138,7 @@ export default {
 <style>
 .note {
   /* margin: 10px; */
-  padding: 10px;
+  padding: 0px 10px;
   /* background-color: lightblue; */
   display: flex;
   flex-wrap: wrap;
@@ -148,8 +152,10 @@ export default {
   font-size: 16px;
   color: #333;
   line-height: 1.2;
-  margin: 15px;
+  margin: 10px;
   position: relative;
+}
+.slideInTop {
   animation: 1s ease-in-out 0s 1 slideInTop;
 }
 @keyframes slideInTop {
@@ -164,7 +170,6 @@ export default {
 }
 .cardTitle {
   width: 85%;
-  height: 20px;
   text-align: center;
   font-weight: 500;
   padding: 7px;
@@ -179,10 +184,11 @@ export default {
 .cardContentDiv > p {
   text-align: left;
   display: -webkit-box;
-  -webkit-line-clamp: 10; /*define how many line you want to show */
+  -webkit-line-clamp: 7; /*define how many line you want to show */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height: 1.2;
 }
 .label {
   margin-top: 10px;
@@ -245,7 +251,7 @@ export default {
   width: -webkit-fill-available;
   padding: 10px 20px;
   font-size: 16px;
-  /* line-height: 1.3; */
+  line-height: 1.3;
   background-color: inherit;
   color: #333;
 

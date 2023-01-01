@@ -1,16 +1,25 @@
 <template>
   <div class="contentCard">
+    <TopButtons page="archive" :noteObj="noteObj" @onUnarchive="unarchive()" />
     <NoteCard :noteObj="noteObj" />
   </div>
 </template>
 
 <script>
 import NoteCard from "@/components/allNotes/NoteCard.vue";
+import TopButtons from "@/components/buttons/TopButtons.vue";
+import { useToast } from "vue-toastification";
 
 export default {
   name: "Archive",
+  setup() {
+    // Get toast interface
+    const toast = useToast();
+    return { toast };
+  },
   components: {
     NoteCard,
+    TopButtons,
   },
   data() {
     return {
@@ -33,6 +42,15 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    unarchive() {
+      this.noteObj = [];
+      this.showMessage();
+    },
+    showMessage() {
+      this.toast.success("All notes unarchived successfully!");
+    },
   },
 };
 </script>
