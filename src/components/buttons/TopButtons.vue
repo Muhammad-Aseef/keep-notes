@@ -13,11 +13,16 @@
       Unarchive All
     </button>
   </div>
-  <div class="buttonsDiv" v-if="page == 'home' && noteObj.length !== 0">
+  <div class="buttonsDiv" v-if="page == 'home'">
     <button class="topButton fade" v-if="!addNote" @click="addNote = true">
       Add Note
     </button>
-    <button class="topButton fade" v-else @click="saveNote()">save</button>
+    <div v-else class="twoButtons">
+      <button class="topButton fade" @click="saveNote()">save</button>
+      <button class="topButton closeButton fade" @click="addNote = false">
+        <vue-feather type="x" size="16"></vue-feather>
+      </button>
+    </div>
   </div>
   <div
     class="addNote"
@@ -41,7 +46,32 @@
       v-model="note.note"
       class="addContent"
     ></textarea>
-    <OpenNoteActions :note="note" :isAdding="true" />
+    <div class="addCardBottom">
+      <OpenNoteActions :note="note" :isAdding="true" />
+      <div class="label openLabel" v-if="note.label !== ''">
+        <span>{{ note.label }}</span>
+      </div>
+    </div>
+  </div>
+  <div class="buttonsDiv" v-if="page == 'labels'">
+    <button class="topButton fade" v-if="!addLabel" @click="addLabel = true">
+      Add Label
+    </button>
+    <div v-else class="twoButtons">
+      <button class="topButton fade" @click="saveLabel()">save</button>
+      <button class="topButton closeButton fade" @click="addLabel = false">
+        <vue-feather type="x" size="16"></vue-feather>
+      </button>
+    </div>
+  </div>
+  <div class="addNote addLabel" v-if="addLabel">
+    <input
+      type="text"
+      placeholder="Enter label name"
+      maxlength="20"
+      v-model="label.name"
+      class="addTitle"
+    />
   </div>
 </template>
 <script>
@@ -49,7 +79,7 @@ import OpenNoteActions from "../allNotes/OpenNoteActions.vue";
 import { useToast } from "vue-toastification";
 
 export default {
-  props: ["page", "noteObj"],
+  props: ["page", "noteObj", "labelObj"],
   components: {
     OpenNoteActions,
   },
@@ -57,18 +87,23 @@ export default {
     const toast = useToast();
     return { toast };
   },
-  //   created() {
-  //     console.log(this.noteObj);
-  //   },
+  // created() {
+  //   console.log(this.labelObj);
+  // },
   data() {
     return {
       addNote: false,
+      addLabel: false,
       note: {
         id: 0,
         title: "",
         note: "",
         color: "white",
-        label: "label",
+        label: "",
+      },
+      label: {
+        id: 0,
+        name: "",
       },
     };
   },
@@ -89,18 +124,31 @@ export default {
         this.addNote = false;
       }
     },
+    saveLabel() {
+      if (this.label.name === "") {
+        this.toast.error("Please enter the label name!");
+      } else {
+        this.toast.success("Label saved successfully!");
+        this.labelObj.push(this.label);
+        this.label = {
+          id: 0,
+          name: "",
+        };
+        this.addLabel = false;
+      }
+    },
   },
 };
 </script>
 <style>
 /* .buttonsDiv {
   display: flex;
-  justify-content: center;
+  align-items: center;
 } */
 .topButton {
   padding: 10px 20px;
   margin: 5px;
-  border-radius: 10px;
+  border-radius: 7px;
   cursor: pointer;
   text-transform: uppercase;
   font-weight: 600;
@@ -114,6 +162,13 @@ export default {
   background-color: #444;
   color: whitesmoke;
 }
+.closeButton {
+  padding: 7px 10px;
+  color: tomato;
+}
+.closeButton:hover {
+  background-color: tomato;
+}
 .fade {
   animation: 3.5s 0s 1 fade;
 }
@@ -125,7 +180,10 @@ export default {
     opacity: 1;
   }
 }
-
+.twoButtons {
+  display: flex;
+  align-items: center;
+}
 .addNote {
   color: #333;
   width: 450px;
@@ -133,6 +191,11 @@ export default {
   border-radius: 10px;
   padding: 10px;
   background-color: white;
+  margin: 10px 0px;
+}
+.addLabel {
+  width: 200px;
+  border: 2px solid lightgray;
 }
 .addTitle {
   width: -webkit-fill-available;
@@ -166,10 +229,9 @@ export default {
   background-color: rgb(125, 128, 128);
   box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-.addActions {
-  padding: 0px;
-}
-.addButtons {
-  justify-content: flex-start;
+.addCardBottom {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
 }
 </style>

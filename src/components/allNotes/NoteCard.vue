@@ -28,7 +28,7 @@
             :id="'action' + note.id"
             class="hideAction"
             :note="note"
-            @colorUpdated="closeAction(note.id)"
+            @changesUpdated="closeAction(note.id)"
           />
         </div>
         <hr style="background-color: #555; border: none; height: 1px" />
@@ -103,6 +103,7 @@ export default {
       isOpen: false,
       note: {},
       showActions: false,
+      previousCard: null,
     };
   },
   methods: {
@@ -114,13 +115,20 @@ export default {
     openAction(e, id) {
       e.stopPropagation();
       let card = document.getElementById("action" + id);
-      // console.log(card);
-      if (this.showActions) {
+      if (card === this.previousCard) {
         card.style.display = "none";
+        this.previousCard = null;
+        this.showActions = false;
       } else {
         card.style.display = "block";
+        if (this.showActions) {
+          this.previousCard.style.display = "none";
+          this.previousCard = card;
+        } else {
+          this.previousCard = card;
+          this.showActions = true;
+        }
       }
-      this.showActions = !this.showActions;
     },
     closeAction(id) {
       let card = document.getElementById("action" + id);
@@ -204,6 +212,9 @@ export default {
 }
 .openLabel {
   margin: 0px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
 }
 .cardBottom {
   width: 100%;

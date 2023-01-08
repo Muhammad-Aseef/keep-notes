@@ -1,17 +1,10 @@
 <template>
-  <div
-    :class="['cardActions', note.trash && 'adjust']"
-    @click="actionClick($event)"
-  >
+  <div :class="['cardActions', note.trash && 'adjust']" @click="stop($event)">
     <ul class="actionButtons" v-if="!note.trash">
       <li class="actionItem hoverItem" @click="openPalette($event)">
         <vue-feather type="codesandbox" size="20"></vue-feather>
         <p>Change color</p>
-        <div
-          class="colorPalette"
-          v-if="paletteOpen"
-          @click="paletteClick($event)"
-        >
+        <div class="colorPalette" v-if="paletteOpen" @click="stop($event)">
           <div
             class="colorOption"
             v-for="color in colorOptions"
@@ -43,9 +36,25 @@
         <vue-feather type="folder-plus" size="20"></vue-feather>
         <p>Unarchive</p>
       </li>
-      <li class="actionItem hoverItem">
+      <li class="actionItem hoverItem" @click="openLabel()">
         <vue-feather type="plus-circle" size="20"></vue-feather>
         <p>Add Label</p>
+        <div class="selectLabel" v-if="labelOpen" @click="stop($event)">
+          <p style="border-bottom: 2px solid">Choose Label</p>
+
+          <div v-for="label in allLabels" :key="label.id" class="labelOption">
+            <input
+              type="checkbox"
+              :value="label.id"
+              :checked="label.name === note.label"
+              :id="'checkbox' + label.id"
+              @change="getValue(label)"
+            />
+            <span class="">
+              {{ label.name }}
+            </span>
+          </div>
+        </div>
       </li>
     </ul>
     <ul class="actionButtons" v-else>
@@ -67,6 +76,7 @@ export default {
   data() {
     return {
       paletteOpen: false,
+      labelOpen: false,
       colorOptions: [
         "#BFD0E0",
         "#BCECE0",
@@ -77,6 +87,20 @@ export default {
         "#FADCD9",
         "#DBCBD8",
       ],
+      allLabels: [
+        {
+          id: 1,
+          name: "university",
+        },
+        {
+          id: 2,
+          name: "work",
+        },
+        {
+          id: 3,
+          name: "groceries",
+        },
+      ],
     };
   },
   methods: {
@@ -85,7 +109,7 @@ export default {
       this.paletteOpen = !this.paletteOpen;
       // e.stopPropagation();
     },
-    paletteClick(e) {
+    stop(e) {
       e.stopPropagation();
     },
     changeColor(c) {
@@ -95,12 +119,28 @@ export default {
         this.note.color = c;
         console.log(this.note);
         this.paletteOpen = false;
-        this.$emit("colorUpdated");
+        this.$emit("changesUpdated");
       }
     },
-    actionClick(e) {
-      // console.log("card");
-      e.stopPropagation();
+    openLabel() {
+      this.labelOpen = !this.labelOpen;
+    },
+    getValue(label) {
+      if (this.note.label === label.name) {
+        this.note.label = "";
+      } else {
+        let cb = document.querySelectorAll("input[type=checkbox]");
+        const selectedLabel = document.getElementById("checkbox" + label.id);
+        console.log(cb, selectedLabel);
+        cb.forEach((el) => {
+          if (el !== selectedLabel) {
+            el.checked = false;
+          }
+        });
+        this.note.label = label.name;
+        this.labelOpen = false;
+        this.$emit("changesUpdated");
+      }
     },
   },
 };
@@ -144,11 +184,11 @@ export default {
   font-size: 14px;
   padding: 5px 3px;
   letter-spacing: 1px;
-  /* background-color: #444; 
+  /* background-color: #444;
   color: white;
   position: absolute;
   top: -5px;
-  right: 18px; 
+  right: 18px;
   margin-top: 5px; */
   color: #333;
   margin-left: 7px;
@@ -177,5 +217,26 @@ export default {
 }
 .colorOption:hover {
   border: 1px solid gray;
+}
+.selectLabel {
+  width: max-content;
+  background-color: white;
+  color: #333;
+  padding: 10px;
+  border-radius: 7px;
+  box-shadow: 1px 2px 9px 0px lightgray;
+  position: absolute;
+  left: 100%;
+  top: 0px;
+  z-index: 99;
+}
+.labelOption {
+  margin: 5px 0px;
+  display: flex;
+  align-items: center;
+}
+.labelOption > span {
+  margin-inline: 8px;
+  word-break: break-all;
 }
 </style>

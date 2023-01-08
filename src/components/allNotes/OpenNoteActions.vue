@@ -46,16 +46,29 @@
         <vue-feather type="folder-plus"></vue-feather>
         <span>Unarchive</span>
       </li>
-      <li class="actionItem OpenhoverItem">
+      <li class="actionItem OpenhoverItem" @click="!note.trash && openLabel()">
         <vue-feather type="plus-circle"></vue-feather>
         <span>Add Label</span>
+        <div class="selectLabel" v-if="labelOpen" @click="stop($event)">
+          <p style="border-bottom: 2px solid">Choose Label</p>
+
+          <div v-for="label in allLabels" :key="label.id" class="labelOption">
+            <input
+              type="checkbox"
+              :value="label.id"
+              :checked="label.name === note.label"
+              :id="'checkbox' + label.id"
+              @change="getValue(label)"
+            />
+            <span class="">
+              {{ label.name }}
+            </span>
+          </div>
+        </div>
       </li>
     </ul>
     <ul v-else :class="['actionButtons', 'addButtons']">
-      <li
-        class="actionItem OpenhoverItem"
-        @click="!note.trash && openPalette($event)"
-      >
+      <li class="actionItem OpenhoverItem" @click="openPalette($event)">
         <vue-feather type="codesandbox"></vue-feather>
         <span>Change Color</span>
         <div class="colorPalette" v-if="paletteOpen" @click="stop($event)">
@@ -78,9 +91,24 @@
           </div>
         </div>
       </li>
-      <li class="actionItem OpenhoverItem">
+      <li class="actionItem OpenhoverItem" @click="openLabel()">
         <vue-feather type="plus-circle"></vue-feather>
         <span>Add Label</span>
+        <div class="selectLabel" v-if="labelOpen" @click="stop($event)">
+          <p style="border-bottom: 2px solid">Choose Label</p>
+          <div v-for="label in allLabels" :key="label.id" class="labelOption">
+            <input
+              type="checkbox"
+              :value="label.id"
+              :checked="label.name === note.label"
+              :id="'checkbox' + label.id"
+              @change="getValue(label)"
+            />
+            <span class="">
+              {{ label.name }}
+            </span>
+          </div>
+        </div>
       </li>
     </ul>
   </div>
@@ -109,6 +137,21 @@ export default {
         "#FADCD9",
         "#DBCBD8",
       ],
+      labelOpen: false,
+      allLabels: [
+        {
+          id: 1,
+          name: "university",
+        },
+        {
+          id: 2,
+          name: "work",
+        },
+        {
+          id: 3,
+          name: "groceries",
+        },
+      ],
     };
   },
   methods: {
@@ -132,6 +175,25 @@ export default {
     showMessage() {
       this.toast.error("You cannot edit trashed note!");
     },
+    openLabel() {
+      this.labelOpen = !this.labelOpen;
+    },
+    getValue(label) {
+      if (this.note.label === label.name) {
+        this.note.label = "";
+      } else {
+        let cb = document.querySelectorAll("input[type=checkbox]");
+        const selectedLabel = document.getElementById("checkbox" + label.id);
+        console.log(cb, selectedLabel);
+        cb.forEach((el) => {
+          if (el !== selectedLabel) {
+            el.checked = false;
+          }
+        });
+        this.note.label = label.name;
+        this.labelOpen = false;
+      }
+    },
   },
 };
 </script>
@@ -140,6 +202,7 @@ export default {
 .openActions {
   width: 100%;
   padding: 0px 10px;
+  flex: 2;
 }
 .openButtons {
   display: flex;
@@ -149,7 +212,7 @@ export default {
 .addButtons {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .actionItem {
   cursor: pointer;
